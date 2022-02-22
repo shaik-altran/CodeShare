@@ -96,8 +96,48 @@ void SearchContact()
 
 	 }
 }
+
+void DeleteContact()
+{
+	char Contacttodelete[30];
+	char line[30];
+	char *Next;
+	char *datainfile;
+	int size1;
+	int i,j;
+	int size;
+	FILE *fp;
+	fp = fopen("contacts.txt","r");
+	fseek(fp,0,2);
+        size = ftell(fp)+1;
+        rewind(fp);
+	datainfile  = calloc(size,sizeof(int));
+	fread(datainfile,size-1,1,fp);
+	rewind(fp);
+	printf("Enter the Contact to delete\n");
+	scanf("%s",Contacttodelete);
+	for(i=0;datainfile[i];i++)
+	{
+		if(datainfile[i] == '\n')
+		{
+			j = i+1;
+			fgets(line,sizeof(line),fp);
+			if(strstr(line,Contacttodelete))
+			{
+				fseek(fp,1,2);
+				size1 = ftell(fp)+1;
+				fseek(fp,-1,1);
+				Next = calloc(size1,sizeof(int));
+				memmove(datainfile[j],Next,sizeof(Next));
+				puts(datainfile);
+			}
+		}
+	}
+}
+	
 int main()
 {
+	
 	while(1)
 	{
 		int choice;
@@ -105,7 +145,8 @@ int main()
 		printf("1.ADDCONTACT\n");
 		printf("2.DISPLAYCONTACTS\n");
 		printf("3.SEARCHCONTACTS\n");
-		printf("4.EXIT\n");
+		printf("4.DeleteContact\n");
+		printf("5.EXIT\n");
 		printf("Enter Your Choice: \n");
 		scanf("%d",&choice);
 		if(choice == 1)
@@ -115,6 +156,8 @@ int main()
 		else if(choice == 3)
 			SearchContact();
 		else if(choice == 4)
+			DeleteContact();
+		else if(choice == 5)
 			exit(0);
 		else
 			printf("Wrong Choice...\n");
