@@ -128,7 +128,7 @@ void DeleteContact()
 				size1 = ftell(fp)+1;
 				fseek(fp,-1,1);
 				Next = calloc(size1,sizeof(int));
-				memmove(datainfile[j],Next,sizeof(Next));
+				memmove(datainfile+j,Next,sizeof(Next));
 				puts(datainfile);
 			}
 		}
